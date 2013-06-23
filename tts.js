@@ -7,12 +7,12 @@ function tts (string, options, callback) {
 
   switch (platform) {
     case 'darwin':
-      command = darwin(string, options).join(' ');
+      command = darwin(string, options);
       break;
   }
 
   // Speaker process
-  child_process.exec(command, null, callback);
+  child_process.execFile('say',command, null, callback);
 }
 
 /*
@@ -22,9 +22,6 @@ function tts (string, options, callback) {
  */
 function darwin (string, options, callback) {
   var command = [];
-
-  // The command to run
-  command.push('say');
 
   // Message
   if (string) {
