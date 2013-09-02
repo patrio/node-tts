@@ -9,6 +9,9 @@ function tts (string, options, callback) {
     case 'darwin':
       command = darwin(string, options).join(' ');
       break;
+    case 'linux':
+      command = linux_espeak(string, options).join(' ');
+      break;
   }
 
   // Speaker process
@@ -25,6 +28,31 @@ function darwin (string, options, callback) {
 
   // The command to run
   command.push('say');
+
+  // Message
+  if (string) {
+    command.push(string)
+  }
+  else if (options.file) {
+    command.push('-f', options.file);
+  }
+
+  // Options
+  if (options.voice) {
+    command.push('-v', options.voice);
+  }
+  if (options.output) {
+    command.push('-o', options.output);
+  }
+
+  return command;
+}
+
+function linux_espeak (string, options, callback) {
+  var command = [];
+
+  // The command to run
+  command.push('espeak');
 
   // Message
   if (string) {
